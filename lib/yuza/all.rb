@@ -1,5 +1,4 @@
 require_relative "configuration"
-require_relative "endpoints"
 require_relative "response"
 require_relative "user"
 

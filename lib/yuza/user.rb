@@ -30,26 +30,36 @@ module Yuza
     end
 
     # returns User
-    def save!
-      body = {user: to_h}.to_json
+    def save!(body={user: to_h})
+      body = body.to_json
       resp = Yuza.http.patch("/users/#{id}", body)
       if resp.body["success"]
         return self.class.where_id(id)
       else
-        fail Netvice::RuntimeError, "Saving failed"
+        fail Netvice::RuntimeError, "Saving failed. Got: #{resp.body}"
       end
     end
 
-    def save
-      save! rescue false
+    def save(body={user: to_h})
+      save!(body) rescue false
     end
 
     # returns Yuza::Response
     def attempt_login(password)
     end
 
-    # returns Yuza::Response
+    # returns User instance, will insert/update password
     def change_password(password, repeat_password)
+      fail ArgumentError, "Password not match" unless password == repeat_password
+
+      body = {
+        password: {
+          app: Netvice.configuration.app,
+          password: password
+        }
+      }
+
+      save!(body)
     end
   end # User
 end # Yuza
