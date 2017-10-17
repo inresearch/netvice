@@ -1,0 +1,7 @@
+{
+  "succeed":false,
+  "errors":{
+    "base":"Couldn't find User with 'id'=a"
+  },
+  "displayable_error":false
+}
