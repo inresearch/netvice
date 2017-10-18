@@ -27,14 +27,23 @@ module Netvice
     end
 
     def get(path, json: true)
-      resp = session.get(path)
-      resp = Response.new(resp.body, resp.status)
-      resp.body = parse_json(resp.body) if json
-      resp
+      send_request(:get, path, json: json)
     end
 
     def patch(path, body, json: true)
-      resp = session.patch(path, body)
+      send_request(:patch, path, body: body, json: json)
+    end
+
+    def post(path, body, json: true)
+      send_request(:post, path, body: body, json: json)
+    end
+    
+    def send_request(method, path, body:nil, json:true)
+      resp = case method
+             when :get then session.get(path)
+             else
+               session.send(method, path, body.to_json)
+             end
       resp = Response.new(resp.body, resp.status)
       resp.body = parse_json(resp.body) if json
       resp

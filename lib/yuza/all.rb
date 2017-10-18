@@ -2,6 +2,7 @@ module Yuza
   autoload :Configuration, "yuza/configuration"
   autoload :Response, "yuza/response"
   autoload :User, "yuza/user" 
+  autoload :Session, "yuza/session"
   extend self
 
   @@http_conn = nil

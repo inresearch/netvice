@@ -8,10 +8,12 @@ require "yuza/all"
 module Netvice
   autoload :Settable, "netvice/settable"
   autoload :Initable, "netvice/initable"
+  autoload :Inspector, "netvice/inspector"
   autoload :Timestampable, "netvice/timestampable"
   autoload :Configurable, "netvice/configurable"
   autoload :Configuration, "netvice/configuration"
   autoload :Connection, "netvice/connection"
+  autoload :Model, "netvice/model"
 
   RuntimeError = Class.new(StandardError)
   @@config = Netvice::Configuration.new
@@ -26,4 +28,8 @@ module Netvice
     @@config.instance_eval(&block)
     @@config
   end # configure
+
+  def self.reset_configuration!
+    @@config = Netvice::Configuration.new
+  end
 end # Netvice

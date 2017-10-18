@@ -5,6 +5,7 @@ module Yuza
     config_field :host, 'http://localhost'
     config_field :port, 2000
     config_field :timeout, 10
+    config_field :reauthenticate_interval, 30
 
     def base_url
       base_url = host

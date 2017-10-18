@@ -1,8 +1,5 @@
 module Yuza
-  class User
-    include Netvice::Initable
-    include Netvice::Timestampable
-
+  class User < Netvice::Model
     attr_accessor :id, :name, :email, :phone
 
     def to_h
@@ -11,8 +8,8 @@ module Yuza
         name: name,
         email: email,
         phone: phone,
-        created_at: created_at.to_f,
-        updated_at: updated_at.to_f
+        created_at: created_at,
+        updated_at: updated_at
       }
     end
 
@@ -46,6 +43,22 @@ module Yuza
 
     # returns Yuza::Response
     def attempt_login(password)
+      body = {
+        session: {
+          user: {
+            email: email,
+            password: password,
+            app: Netvice.configuration.app 
+          },
+          validity_minutes: Netvice.configuration.yuza.reauthenticate_interval
+        }
+      }
+
+      resp = Yuza.http.post("/sessions", body)
+      if resp.body["success"]
+        return Yuza::Session.new(resp.body["data"])
+      end
+      false
     end
 
     # returns User instance, will insert/update password
@@ -60,6 +73,10 @@ module Yuza
       }
 
       save!(body)
+    end
+
+    def inspect
+      inspector([:id])
     end
   end # User
 end # Yuza

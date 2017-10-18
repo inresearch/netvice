@@ -11,4 +11,9 @@ require "netvice"
 # Pry.start
 
 require "irb"
+
+Netvice.configure do
+  app "pageok"
+end
+
 IRB.start(__FILE__)

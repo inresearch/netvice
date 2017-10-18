@@ -1,0 +1,7 @@
+{
+  "success":false,
+  "errors":{
+    "base":"Invalid credential"
+  },
+  "displayable_error":true
+}
