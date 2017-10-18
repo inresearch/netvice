@@ -7,7 +7,7 @@ module Netvice
     end
 
     module StaticMethods
-      def config_field(field_name, default)
+      def config_field(field_name, default=nil)
         ATTRIBUTES[self] = {} unless ATTRIBUTES[self]
         ATTRIBUTES[self][field_name] = {default: default}
 
@@ -32,8 +32,11 @@ module Netvice
         instance_name = :"@#{field_name}"
         instance_variable_set(instance_name, default)
       end
-      setup() if respond_to?(:setup)
+      setup()
     end # initialize
+
+    def setup
+    end
 
     def config
       Netvice.configuration
