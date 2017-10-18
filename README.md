@@ -4,10 +4,12 @@ Manages the microservice of Netinmax.
 
 ```ruby
 Netvice.configure do
+  app  "pageok"
+  logger Rails.logger
+
   yuza do
     host "http://localhost"
     port 5000
-    app  "pageok"
   end
 end
 ```

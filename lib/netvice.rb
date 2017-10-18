@@ -1,6 +1,8 @@
+require "logger"
 require "patron"
 require "json"
 require "date"
+require "rainbow"
 
 require "netvice/version"
 require "yuza/all"
@@ -11,12 +13,16 @@ module Netvice
   autoload :Inspector, "netvice/inspector"
   autoload :Timestampable, "netvice/timestampable"
   autoload :Configurable, "netvice/configurable"
+  autoload :Reloadable, "netvice/reloadable"
   autoload :Configuration, "netvice/configuration"
   autoload :Connection, "netvice/connection"
   autoload :Model, "netvice/model"
+  autoload :Sanitizer, "netvice/sanitizer"
+  autoload :FakeLogger, "netvice/fake_logger"
 
   RuntimeError = Class.new(StandardError)
   @@config = Netvice::Configuration.new
+  @@fake_logger = FakeLogger.new
 
   # for getting the configuration object
   def self.configuration
@@ -31,5 +37,9 @@ module Netvice
 
   def self.reset_configuration!
     @@config = Netvice::Configuration.new
+  end
+
+  def self.logger
+    Netvice.configuration.logger || @@fake_logger
   end
 end # Netvice

@@ -5,6 +5,7 @@ module Netvice
     include Netvice::Configurable
 
     config_field :app, nil
+    config_field :logger, Logger.new(STDOUT)
 
     def setup
       @yuza_configuration = Yuza::Configuration.new

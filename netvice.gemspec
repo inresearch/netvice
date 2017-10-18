@@ -32,5 +32,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.14"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_dependency "patron", '~> 0.10'
+  spec.add_dependency "rainbow", '~> 2.2'
   #spec.add_dependency("railties", ">= 4.1.0", "< 5.2")
 end

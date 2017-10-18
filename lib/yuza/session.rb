@@ -1,15 +1,17 @@
 module Yuza
   class Session < Netvice::Model
-    attr_accessor :user_id, :code, :app, :expiry_time
+    attr_accessor :id, :user_id, :code, :app, :expiry_time
+    reloadable_by :code
 
     def after_initialize(states={})
-      if states['user']
+      if states['user'] && states['user']['id']
         @user_id = states['user']['id']
       end
     end
 
     def to_h
       {
+        id: id,
         user_id: user_id,
         code: code,
         app: app,

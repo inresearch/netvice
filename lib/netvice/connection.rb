@@ -39,13 +39,17 @@ module Netvice
     end
     
     def send_request(method, path, body:nil, json:true)
+      ob_body = Netvice::Sanitizer.obfuscate_sensitive_data(body)
+      Netvice.logger.info(Rainbow("Sending ##{method.to_s.upcase}: #{path} <#{ob_body}>").cyan)
       resp = case method
              when :get then session.get(path)
+             when :post then session.post(path, body.to_json)
              else
-               session.send(method, path, body.to_json)
+               session.send(method, path, body)
              end
       resp = Response.new(resp.body, resp.status)
       resp.body = parse_json(resp.body) if json
+      Netvice.logger.info(Rainbow("Response #{resp.status}: #{Netvice::Sanitizer.obfuscate_sensitive_data(resp.body)}").magenta)
       resp
     end
 

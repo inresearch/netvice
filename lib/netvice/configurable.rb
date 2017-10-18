@@ -12,14 +12,12 @@ module Netvice
         ATTRIBUTES[self][field_name] = {default: default}
 
         class_eval do
-          define_method(field_name) do |given_val=nil|
+          define_method(field_name) do |*args|
+            given_val = args[0]
             instance_name = :"@#{field_name}"
-            field_val = instance_variable_get(instance_name)
-            if field_val && given_val.nil?
-              field_val
-            elsif field_val.nil? && given_val.nil?
-              instance_variable_set(instance_name, nil)
-            elsif given_val
+            if args.size.zero?
+              instance_variable_get(instance_name)
+            else
               instance_variable_set(instance_name, given_val)
             end
           end # define_method

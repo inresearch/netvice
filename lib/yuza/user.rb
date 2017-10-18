@@ -31,7 +31,7 @@ module Yuza
       body = body.to_json
       resp = Yuza.http.patch("/users/#{id}", body)
       if resp.body["success"]
-        return self.class.where_id(id)
+        reload!
       else
         fail Netvice::RuntimeError, "Saving failed. Got: #{resp.body}"
       end
