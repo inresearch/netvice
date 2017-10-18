@@ -1,8 +1,7 @@
-require_relative "configuration"
-require_relative "response"
-require_relative "user"
-
 module Yuza
+  autoload :Configuration, "yuza/configuration"
+  autoload :Response, "yuza/response"
+  autoload :User, "yuza/user" 
   extend self
 
   @@http_conn = nil

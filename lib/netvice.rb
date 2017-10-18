@@ -3,16 +3,16 @@ require "json"
 require "date"
 
 require "netvice/version"
-require "netvice/settable"
-require "netvice/initable"
-require "netvice/timestampable"
-require "netvice/configurable"
-require "netvice/configuration"
-require "netvice/connection"
-
 require "yuza/all"
 
 module Netvice
+  autoload :Settable, "netvice/settable"
+  autoload :Initable, "netvice/initable"
+  autoload :Timestampable, "netvice/timestampable"
+  autoload :Configurable, "netvice/configurable"
+  autoload :Configuration, "netvice/configuration"
+  autoload :Connection, "netvice/connection"
+
   RuntimeError = Class.new(StandardError)
   @@config = Netvice::Configuration.new
 
