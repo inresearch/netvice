@@ -48,8 +48,7 @@ module Yuza
     end
 
     def revoke!
-      body = {session: {code: code}, age: 2, something: {cool: 'yeah'}}
-      resp = Yuza.http.patch("/sessions/revoke", body)
+      resp = Yuza.http.delete("/sessions/#{code}/revoke")
 
       if resp.body["errors"] && resp.body["errors"].any?
         fail Yuza::RuntimeError, resp.body["errors"]

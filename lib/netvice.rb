@@ -20,7 +20,8 @@ module Netvice
   autoload :FakeLogger, "netvice/fake_logger"
 
   RuntimeError = Class.new(StandardError)
-  TimeoutError = Class.new(RuntimeError)
+  NetworkError = Class.new(RuntimeError)
+  TimeoutError = Class.new(NetworkError)
   @@config = Netvice::Configuration.new
   @@fake_logger = FakeLogger.new
 

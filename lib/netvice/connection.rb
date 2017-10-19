@@ -7,12 +7,13 @@ module Netvice
     }
 
     attr_reader :base_url
-    attr_reader :headers
+    attr_reader :header
     attr_reader :timeout
 
     def initialize(base_url, options={})
       @base_url = base_url
-      @headers = DEFAULT_HEADERS.merge(options.fetch(:headers, {}))
+      @header = options[:header] || options[:headers] || {}
+      @header = DEFAULT_HEADERS.merge(@header)
       @timeout = options.fetch(:timeout)
     end
 
@@ -21,7 +22,7 @@ module Netvice
       @session = Patron::Session.new do |patron|
         patron.timeout = timeout
         patron.base_url = base_url
-        patron.headers = headers
+        patron.headers = header
       end
       @session
     end
@@ -38,8 +39,8 @@ module Netvice
       send_request(:post, path, body: body, json: json)
     end
 
-    def delete(path, body, json: true)
-      send_request(:delete, path, body: body, json: json)
+    def delete(path, json: true)
+      send_request(:delete, path, json: json)
     end
     
     def send_request(method, path, body:nil, json:true)
@@ -48,6 +49,7 @@ module Netvice
 
       resp = case method
              when :get then session.get(path)
+             when :delete then session.delete(path)
              else
                session.send(method, path, body.to_json)
              end

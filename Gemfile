@@ -5,3 +5,4 @@ gemspec
 
 gem 'webmock'
 gem 'rspec'
+gem 'pry-byebug', platforms: [:mri]
