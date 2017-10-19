@@ -22,13 +22,12 @@ module Yuza
       if errors["base"] && errors["base"] =~ /find.+with.+id/i
         return nil
       else
-        fail Yuza::Error, errors
+        fail Yuza::RuntimeError, errors
       end
     end
 
     # returns User
     def save!(body={user: to_h})
-      body = body.to_json
       resp = Yuza.http.patch("/users/#{id}", body)
       if resp.body["success"]
         reload!

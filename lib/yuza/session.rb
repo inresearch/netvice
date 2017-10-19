@@ -1,6 +1,6 @@
 module Yuza
   class Session < Netvice::Model
-    attr_accessor :id, :user_id, :code, :app, :expiry_time
+    attr_accessor :id, :user_id, :code, :app, :expiry_time, :invalid
     reloadable_by :code
 
     def after_initialize(states={})
@@ -16,6 +16,7 @@ module Yuza
         code: code,
         app: app,
         expiry_time: expiry_time,
+        invalid: invalid,
         created_at: created_at,
         updated_at: updated_at
       }
@@ -23,6 +24,14 @@ module Yuza
 
     def expiry_time=(timestamp)
       @expiry_time = convert_from_timestamp(timestamp)
+    end
+
+    def invalid?
+      invalid
+    end
+
+    def valid?
+      !invalid?
     end
 
     # returns Session
@@ -34,16 +43,28 @@ module Yuza
       if errors["base"] && errors["base"] =~ /find.+with.+id/i
         return nil
       else
-        fail Yuza::Error, errors
+        fail Yuza::RuntimeError, errors
       end
     end
 
     def revoke!
-      fail NotImplementedError
+      body = {session: {code: code}, age: 2, something: {cool: 'yeah'}}
+      resp = Yuza.http.patch("/sessions/revoke", body)
+
+      if resp.body["errors"] && resp.body["errors"].any?
+        fail Yuza::RuntimeError, resp.body["errors"]
+      end
+      set(resp.body["data"])
+      true
     end
 
     def inspect
-      inspector([:user_id, :expiry_time, :code])
+      inspector([:expiry_time])
+    end
+
+    def user
+      return @user if @user
+      @user = Yuza::User.where_id(user_id)
     end
   end # Session
 end # Yuza

@@ -37,20 +37,33 @@ module Netvice
     def post(path, body, json: true)
       send_request(:post, path, body: body, json: json)
     end
+
+    def delete(path, body, json: true)
+      send_request(:delete, path, body: body, json: json)
+    end
     
     def send_request(method, path, body:nil, json:true)
       ob_body = Netvice::Sanitizer.obfuscate_sensitive_data(body)
       Netvice.logger.info(Rainbow("Sending ##{method.to_s.upcase}: #{path} <#{ob_body}>").cyan)
+
       resp = case method
              when :get then session.get(path)
-             when :post then session.post(path, body.to_json)
              else
-               session.send(method, path, body)
+               session.send(method, path, body.to_json)
              end
+
       resp = Response.new(resp.body, resp.status)
       resp.body = parse_json(resp.body) if json
       Netvice.logger.info(Rainbow("Response #{resp.status}: #{Netvice::Sanitizer.obfuscate_sensitive_data(resp.body)}").magenta)
       resp
+    rescue Patron::TimeoutError => e
+      new_err = Netvice::TimeoutError.new(e.message)
+      new_err.set_backtrace(e.backtrace)
+      raise new_err
+    rescue => e
+      new_err = Netvice::RuntimeError.new(e.message)
+      new_err.set_backtrace(e.backtrace)
+      raise new_err
     end
 
     def inspect

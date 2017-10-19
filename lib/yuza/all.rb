@@ -5,6 +5,7 @@ module Yuza
   autoload :Session, "yuza/session"
   extend self
 
+  RuntimeError = Class.new(Netvice::RuntimeError)
   @@http_conn = nil
 
   # represents HTTP connection

@@ -5,7 +5,6 @@ require "date"
 require "rainbow"
 
 require "netvice/version"
-require "yuza/all"
 
 module Netvice
   autoload :Settable, "netvice/settable"
@@ -21,6 +20,7 @@ module Netvice
   autoload :FakeLogger, "netvice/fake_logger"
 
   RuntimeError = Class.new(StandardError)
+  TimeoutError = Class.new(RuntimeError)
   @@config = Netvice::Configuration.new
   @@fake_logger = FakeLogger.new
 
@@ -43,3 +43,5 @@ module Netvice
     Netvice.configuration.logger || @@fake_logger
   end
 end # Netvice
+
+require "yuza/all"
