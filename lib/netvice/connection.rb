@@ -1,5 +1,6 @@
 module Netvice
   class Connection
+    include Netvice::Inspector
     Response = Struct.new(:body, :status)
 
     DEFAULT_HEADERS = {
@@ -69,7 +70,7 @@ module Netvice
     end
 
     def inspect
-      "#<Netvice::Connection base_url=#{base_url} timeout=#{timeout}>"
+      inspector([:base_url, :timeout])
     end
 
     private
