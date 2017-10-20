@@ -61,6 +61,16 @@ describe Netvice::Dimensionable do
         is_banned: 0
       })
     end
+
+    it 'respects nil' do
+      subject.profile_picture = nil
+      subject.is_banned = true
+      expect(subject.instance_dimensions).to eq({
+        age: "25",
+        profile_picture: nil,
+        is_banned: 1 
+      })
+    end
   end
 
   describe '#load_dimensions' do
@@ -78,6 +88,17 @@ describe Netvice::Dimensionable do
       expect(subject.age).to eq 25
       expect(subject.profile_picture).to eq profile_picture_url
       expect(subject.is_banned).to eq false
+    end
+
+    it 'respects nil' do
+      subject.load_dimensions({
+        age: "25",
+        profile_picture: nil,
+        is_banned: 1
+      })
+      expect(subject.age).to eq 25
+      expect(subject.profile_picture).to be_nil
+      expect(subject.is_banned).to eq true
     end
   end
 end
