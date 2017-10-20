@@ -1,11 +1,13 @@
 require "spec_helper"
 
 describe Netvice::Timestampable do
-  class Person
-    include Netvice::Timestampable
-  end
+  let(:person_class) {
+    Class.new do
+      include Netvice::Timestampable
+    end
+  }
 
-  subject { Person.new }
+  subject { person_class.new }
 
   it 'convert from timestamp for created_at and updated_at' do
     timestamp = 15000000

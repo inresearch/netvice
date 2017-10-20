@@ -1,34 +1,38 @@
 require "spec_helper"
 
 describe Netvice::Inspector do
-  class Person
-    attr_accessor :name, :age, :gender
-    include Netvice::Inspector
+  let(:person_class) {
+    Person = Class.new do
+      attr_accessor :name, :age, :gender
+      include Netvice::Inspector
+      include Netvice::Initable
 
-    def inspect
-      inspector([:name, :age])
+      def inspect
+        inspector([:name, :age])
+      end
     end
-  end
+    Person
+  }
 
   it 'prints name and age properly when both exist' do
-    person = Person.new(name: 'Sun', age: 21, gender: 'm')
+    person = person_class.new(name: 'Sun', age: 21, gender: 'm')
     expect(person.inspect).to eq '#<Person name=Sun age=21>'
   end
 
   it 'prints name when only it exists' do
-    person = Person.new(name: 'Sun', gender: 'm')
+    person = person_class.new(name: 'Sun', gender: 'm')
     expect(person.inspect).to eq '#<Person name=Sun>'
   end
 
   it 'prints age when only it exists' do
-    person = Person.new(age: 21, gender: 'm')
+    person = person_class.new(age: 21, gender: 'm')
     expect(person.inspect).to eq '#<Person age=21>'
   end
 
   it 'prints just the class when no args exists' do
-    person = Person.new(gender: 'm')
+    person = person_class.new(gender: 'm')
     expect(person.inspect).to eq '#<Person>'
-    person = Person.new()
+    person = person_class.new()
     expect(person.inspect).to eq '#<Person>'
   end
 end

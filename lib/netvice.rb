@@ -18,10 +18,22 @@ module Netvice
   autoload :Model, "netvice/model"
   autoload :Sanitizer, "netvice/sanitizer"
   autoload :FakeLogger, "netvice/fake_logger"
+  autoload :Dimensionable, "netvice/dimensionable"
+
+  module Dimensions
+    autoload :Array, "netvice/dimensions/array"
+    autoload :Boolean, "netvice/dimensions/boolean"
+    autoload :Fixnum, "netvice/dimensions/fixnum"
+    autoload :Float, "netvice/dimensions/float"
+    autoload :Hash, "netvice/dimensions/hash"
+    autoload :String, "netvice/dimensions/string"
+  end
 
   RuntimeError = Class.new(StandardError)
   NetworkError = Class.new(RuntimeError)
   TimeoutError = Class.new(NetworkError)
+  WrongDimension = Class.new(RuntimeError)
+
   @@config = Netvice::Configuration.new
   @@fake_logger = FakeLogger.new
 

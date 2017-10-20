@@ -1,6 +1,7 @@
 module Yuza
   class Configuration
     include Netvice::Configurable
+    include Netvice::Dimensionable
 
     config_field :host, 'http://localhost'
     config_field :port, 2000
