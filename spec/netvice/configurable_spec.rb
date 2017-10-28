@@ -6,6 +6,10 @@ describe Netvice::Configurable do
 
     config_field :cache_endpoint, "http://localhost:5000"
     config_field :timeout
+    config_field(:env, 'DEVELOPMENT') do |env|
+      env.upcase
+    end
+
     attr_reader :called
 
     def setup
@@ -38,5 +42,11 @@ describe Netvice::Configurable do
 
   it 'call setup after initialization' do
     expect(subject.called).to be true
+  end
+
+  it 'can manipulates the variable if definition has block' do
+    expect(subject.env).to eq 'DEVELOPMENT'
+    subject.env 'producTiOn'
+    expect(subject.env).to eq 'PRODUCTION'
   end
 end # Netvice::Configurable

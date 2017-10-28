@@ -61,13 +61,14 @@ module Yuza
     end
 
     # returns User instance, will insert/update password
-    def change_password(password, repeat_password)
-      fail ArgumentError, "Password not match" unless password == repeat_password
+    def change_password(old:, new:, repeat:)
+      fail ArgumentError, "Password not match" unless new == repeat
 
       body = {
         password: {
           app: Netvice.configuration.app,
-          password: password
+          old: old,
+          password: new
         }
       }
 

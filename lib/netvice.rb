@@ -59,3 +59,4 @@ module Netvice
 end # Netvice
 
 require "yuza/all"
+require "dero/all"

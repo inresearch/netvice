@@ -19,6 +19,9 @@ module Netvice
             if args.size.zero?
               instance_variable_get(instance_name)
             else
+              if block_given?
+                given_val = yield given_val
+              end
               instance_variable_set(instance_name, given_val)
             end
           end # define_method
