@@ -1,4 +1,5 @@
 module Netvice
+  # Make it easy to define configurable fields (used for configuration dsl)
   module Configurable
     ATTRIBUTES = {}
 

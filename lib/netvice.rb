@@ -19,6 +19,7 @@ module Netvice
   autoload :Sanitizer, "netvice/sanitizer"
   autoload :FakeLogger, "netvice/fake_logger"
   autoload :Dimensionable, "netvice/dimensionable"
+  autoload :Endpointable, "netvice/endpointable"
 
   module Dimensions
     autoload :Array, "netvice/dimensions/array"
