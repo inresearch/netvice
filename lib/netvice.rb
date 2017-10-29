@@ -43,6 +43,10 @@ module Netvice
     @@config
   end
 
+  def self.conf
+    configuration
+  end
+
   # for configuration block
   def self.configure(&block)
     @@config.instance_eval(&block)

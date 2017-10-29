@@ -9,6 +9,7 @@ describe Netvice::Configurable do
     config_field(:env, 'DEVELOPMENT') do |env|
       env.upcase
     end
+    config_field :in_rails, -> { defined?(Rails) ? true : false }
 
     attr_reader :called
 
@@ -48,5 +49,16 @@ describe Netvice::Configurable do
     expect(subject.env).to eq 'DEVELOPMENT'
     subject.env 'producTiOn'
     expect(subject.env).to eq 'PRODUCTION'
+  end
+
+  it 'can evaluate value defined in a proc and execute the block to obtain actual value' do
+    conf1 = DatabaseConfig.new
+    expect(conf1.in_rails).to be false
+    module Rails; end
+    conf2 = DatabaseConfig.new
+    expect(conf2.in_rails).to be true
+    Object.send(:remove_const, :Rails)
+    conf3 = DatabaseConfig.new
+    expect(conf3.in_rails).to be false
   end
 end # Netvice::Configurable

@@ -33,6 +33,7 @@ module Netvice
       return unless ATTRIBUTES[self.class]
       ATTRIBUTES[self.class].each do |field_name, options|
         default = options[:default]
+        default = default.() if default.is_a?(Proc)
         instance_name = :"@#{field_name}"
         instance_variable_set(instance_name, default)
       end
