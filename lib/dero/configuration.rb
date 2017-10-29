@@ -26,5 +26,11 @@ module Dero
     
     # ignore if an exception is an instance of any of the error defined
     config_field :excluding, EXCLUDED_EXCEPTIONS
+
+    # specify the working directory
+    config_field(:workdir, -> {(defined?(Rails.root) ? Rails.root.to_s : Dir.pwd)}) do |val|
+      Dero::Kernel::Line.instance_variable_set(:@in_app_pattern, nil)
+      val
+    end
   end
 end

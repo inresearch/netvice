@@ -1,6 +1,11 @@
 module Dero
   autoload :Configuration, "dero/configuration"
 
+  module Kernel
+    autoload :Line, "dero/kernel/line"
+    autoload :Backtrace, "dero/kernel/backtrace"
+  end
+
   RuntimeError = Class.new(Netvice::RuntimeError)
   @@http_conn = nil
 
