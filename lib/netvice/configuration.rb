@@ -13,7 +13,8 @@ module Netvice
         define_method(configurer) do # eg: yuza_configuration
           invar = :"@#{configurer}"
           return instance_variable_get(invar) if instance_variable_get(invar) 
-          instance_variable_set(:"@#{configurer}", Yuza::Configuration.new)
+          config_class = Object.const_get("#{subgem.capitalize}::Configuration")
+          instance_variable_set(:"@#{configurer}", config_class.new)
           instance_variable_get(invar)
         end
 
