@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Yuza::Session do
+describe Netvice::Yuza::Session do
   subject { described_class }
 
   describe "#where_id" do
@@ -11,4 +11,4 @@ describe Yuza::Session do
       expect(sess.id).to eq "f904ff9f-26fe-4054-86a6-cbae5cd066af"
     end
   end # where_id
-end # Yuza::Session
+end # Netvice::Yuza::Session

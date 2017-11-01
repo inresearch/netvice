@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe Yuza::Configuration do
+describe Netvice::Yuza::Configuration do
   let(:configuration) { Netvice.configuration }
   after { Netvice.reset_configuration! }
 
   it 'initializes by default' do
-    expect(configuration.yuza).to be_a Yuza::Configuration
+    expect(configuration.yuza).to be_a Netvice::Yuza::Configuration
   end
 
   it 'can change port' do

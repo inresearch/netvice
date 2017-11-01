@@ -1,5 +1,3 @@
-require "yuza/configuration"
-
 module Netvice
   class Configuration
     include Netvice::Configurable
@@ -41,4 +39,4 @@ module Netvice
       true
     end
   end # Configuration
-end # Yuza
+end # Netvice::Yuza

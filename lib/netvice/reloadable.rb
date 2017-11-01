@@ -25,4 +25,4 @@ module Netvice
       end
     end
   end # Reloadable
-end # Yuza
+end # Netvice::Yuza

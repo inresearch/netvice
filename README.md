@@ -20,7 +20,7 @@ end
 Compatible with: alpha1.
 
 ```ruby
-user = Yuza::User.where_id("5")
+user = Netvice::Yuza::User.where_id("5")
 user.name = "Adam"
 user.save
 user.change_password(old: "Password01", new: "Password02", repeat: "Password02")

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Yuza::User do
+describe Netvice::Yuza::User do
   subject { described_class }
 
   describe '#init' do
@@ -64,7 +64,7 @@ describe Yuza::User do
 
     it 'returns a session on valid credential' do
       stub_json("http://localhost:2000/sessions", "session/attempt_login_succeed", method: :post)
-      expect(sess).to be_a Yuza::Session
+      expect(sess).to be_a Netvice::Yuza::Session
     end
   end # attempt_login
-end # Yuza::User
+end # Netvice::Yuza::User

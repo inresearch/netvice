@@ -8,7 +8,7 @@ describe Netvice::Configuration do
   end
 
   it 'has yuza configuration' do
-    expect(subject.yuza).to be_a Yuza::Configuration
-    expect(Yuza::Configuration).to include Netvice::Configurable
+    expect(subject.yuza).to be_a Netvice::Yuza::Configuration
+    expect(Netvice::Yuza::Configuration).to include Netvice::Configurable
   end
 end

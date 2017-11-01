@@ -1,4 +1,4 @@
-module Yuza
+module Netvice::Yuza
   class Session < Netvice::Model
     attr_accessor :id, :user_id, :code, :app, :expiry_time, :invalid
     reloadable_by :code
@@ -36,22 +36,22 @@ module Yuza
 
     # returns Session
     def self.where_code(code)
-      resp = Yuza.http.get("/sessions/#{code}")
-      return Yuza::Session.new(resp.body['data']) if resp.body["success"]
+      resp = Netvice::Yuza.http.get("/sessions/#{code}")
+      return Netvice::Yuza::Session.new(resp.body['data']) if resp.body["success"]
 
       errors = resp.body["errors"]
       if errors["base"] && errors["base"] =~ /find.+with.+id/i
         return nil
       else
-        fail Yuza::RuntimeError, errors
+        fail Netvice::Yuza::RuntimeError, errors
       end
     end
 
     def revoke!
-      resp = Yuza.http.delete("/sessions/#{code}/revoke")
+      resp = Netvice::Yuza.http.delete("/sessions/#{code}/revoke")
 
       if resp.body["errors"] && resp.body["errors"].any?
-        fail Yuza::RuntimeError, resp.body["errors"]
+        fail Netvice::Yuza::RuntimeError, resp.body["errors"]
       end
       set(resp.body["data"])
       true
@@ -63,7 +63,7 @@ module Yuza
 
     def user
       return @user if @user
-      @user = Yuza::User.where_id(user_id)
+      @user = Netvice::Yuza::User.where_id(user_id)
     end
   end # Session
-end # Yuza
+end # Netvice::Yuza

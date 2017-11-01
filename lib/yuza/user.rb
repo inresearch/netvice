@@ -1,4 +1,4 @@
-module Yuza
+module Netvice::Yuza
   class User < Netvice::Model
     attr_accessor :id, :name, :email, :phone
 
@@ -15,20 +15,20 @@ module Yuza
 
     # returns User
     def self.where_id(id)
-      resp = Yuza.http.get("/users/#{id}")
-      return Yuza::User.new(resp.body['data']) if resp.body["success"]
+      resp = Netvice::Yuza.http.get("/users/#{id}")
+      return Netvice::Yuza::User.new(resp.body['data']) if resp.body["success"]
 
       errors = resp.body["errors"]
       if errors["base"] && errors["base"] =~ /find.+with.+id/i
         return nil
       else
-        fail Yuza::RuntimeError, errors
+        fail Netvice::Yuza::RuntimeError, errors
       end
     end
 
     # returns User
     def save!(body={user: to_h})
-      resp = Yuza.http.patch("/users/#{id}", body)
+      resp = Netvice::Yuza.http.patch("/users/#{id}", body)
       if resp.body["success"]
         reload!
       else
@@ -40,7 +40,7 @@ module Yuza
       save!(body) rescue false
     end
 
-    # returns Yuza::Response
+    # returns Netvice::Yuza::Response
     def attempt_login(password)
       body = {
         session: {
@@ -53,9 +53,9 @@ module Yuza
         }
       }
 
-      resp = Yuza.http.post("/sessions", body)
+      resp = Netvice::Yuza.http.post("/sessions", body)
       if resp.body["success"]
-        return Yuza::Session.new(resp.body["data"])
+        return Netvice::Yuza::Session.new(resp.body["data"])
       end
       false
     end
@@ -79,4 +79,4 @@ module Yuza
       inspector([:id])
     end
   end # User
-end # Yuza
+end # Netvice::Yuza
