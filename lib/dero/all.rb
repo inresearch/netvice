@@ -1,5 +1,7 @@
 module Dero
   autoload :Configuration, "dero/configuration"
+  autoload :StaticMethods, "dero/static_methods"
+  autoload :Processor, "dero/processor"
 
   module Kernel
     autoload :Line, "dero/kernel/line"
@@ -24,4 +26,6 @@ module Dero
     @http_conn = Netvice::Connection.new(
       conf.base_url, timeout: conf.timeout)
   end
+
+  extend Dero::StaticMethods
 end
