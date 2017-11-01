@@ -1,6 +1,7 @@
 # Netvice
 
-Manages the microservice of Netinmax.
+Manages microservices. On library and data structure changes, please help
+ensure updating the compatibility, and change it if necessary.
 
 ```ruby
 Netvice.configure do
@@ -16,6 +17,8 @@ end
 
 ## User
 
+Compatible with: alpha1.
+
 ```ruby
 user = Yuza::User.where_id("5")
 user.name = "Adam"
@@ -25,6 +28,8 @@ user.attempt_login("Password01")
 ```
 
 ## Dero
+
+Compatible with: alpha1.
 
 ```ruby
 

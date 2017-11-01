@@ -3,6 +3,7 @@ require "patron"
 require "json"
 require "date"
 require "rainbow"
+require "cgi"
 
 require "netvice/version"
 
@@ -20,6 +21,10 @@ module Netvice
   autoload :FakeLogger, "netvice/fake_logger"
   autoload :Dimensionable, "netvice/dimensionable"
   autoload :Endpointable, "netvice/endpointable"
+
+  module Transformer
+    autoload :Hash, "netvice/transformer/hash"
+  end
 
   module Dimensions
     autoload :Array, "netvice/dimensions/array"
@@ -54,7 +59,8 @@ module Netvice
   end # configure
 
   def self.reset_configuration!
-    @@config = Netvice::Configuration.new
+    @@config.reset!
+    true
   end
 
   def self.logger

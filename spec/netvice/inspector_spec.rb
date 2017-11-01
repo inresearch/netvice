@@ -14,6 +14,10 @@ describe Netvice::Inspector do
     Person
   }
 
+  after do
+    Object.send(:remove_const, :Person)
+  end
+
   it 'prints name and age properly when both exist' do
     person = person_class.new(name: 'Sun', age: 21, gender: 'm')
     expect(person.inspect).to eq '#<Person name=Sun age=21>'
