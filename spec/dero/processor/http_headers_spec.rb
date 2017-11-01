@@ -1,8 +1,8 @@
 require "spec_helper"
 
-describe Dero::Processor::HttpHeaders do
+describe Netvice::Dero::Processor::HttpHeaders do
   subject { described_class }
-  let(:mask) { Dero::Processor::STRING_MASK }
+  let(:mask) { Netvice::Dero::Processor::STRING_MASK }
 
   before do
     Netvice.conf.dero.masked_http_headers ['Authorization', 'User-Defined-Header']
@@ -34,4 +34,4 @@ describe Dero::Processor::HttpHeaders do
       expect(result[:request][:headers][:'User-Defined-Header']).to eq mask
     end
   end
-end # Dero::Processor::HttpHeaders
+end # Netvice::Dero::Processor::HttpHeaders

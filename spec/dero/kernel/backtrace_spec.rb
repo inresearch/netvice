@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Dero::Kernel::Backtrace do
+describe Netvice::Dero::Kernel::Backtrace do
   let(:trace) {[
     "/Users/wegodev/.rbenv/versions/2.3.4/lib/ruby/gems/2.3.0/gems/pry-0.11.1/lib/pry/pry_instance.rb:355:in `eval'",
     "/Users/wegodev/.rbenv/versions/2.3.4/lib/ruby/gems/2.3.0/gems/pry-0.11.1/lib/pry/pry_instance.rb:355:in `evaluate_ruby'",
@@ -17,7 +17,7 @@ describe Dero::Kernel::Backtrace do
   subject { described_class.parse(trace) }
 
   it '#lines' do
-    expect(subject.lines.first).to be_a Dero::Kernel::Line
+    expect(subject.lines.first).to be_a Netvice::Dero::Kernel::Line
   end
 
   it '#to_s' do

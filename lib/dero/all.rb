@@ -1,4 +1,4 @@
-module Dero
+module Netvice::Dero
   autoload :Configuration, "dero/configuration"
   autoload :StaticMethods, "dero/static_methods"
   autoload :Processor, "dero/processor"
@@ -27,5 +27,5 @@ module Dero
       conf.base_url, timeout: conf.timeout)
   end
 
-  extend Dero::StaticMethods
+  extend Netvice::Dero::StaticMethods
 end

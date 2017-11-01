@@ -1,4 +1,4 @@
-class Dero::Kernel::Backtrace
+class Netvice::Dero::Kernel::Backtrace
   attr_reader :lines
 
   def self.parse(backtrace, opts = {})
@@ -12,7 +12,7 @@ class Dero::Kernel::Backtrace
     end.compact
 
     lines = filtered_lines.map do |unparsed_line|
-      Dero::Kernel::Line.parse(unparsed_line)
+      Netvice::Dero::Kernel::Line.parse(unparsed_line)
     end
 
     new(lines)

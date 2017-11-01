@@ -13,7 +13,7 @@ describe Netvice::Configuration do
   end
 
   it 'can return project configurer' do
-    expect(Netvice.configuration.dero).to be_a Dero::Configuration
+    expect(Netvice.configuration.dero).to be_a Netvice::Dero::Configuration
     expect(Netvice.configuration.yuza).to be_a Yuza::Configuration
   end
 end

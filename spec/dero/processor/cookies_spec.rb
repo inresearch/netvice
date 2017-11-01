@@ -1,8 +1,8 @@
 require "spec_helper"
 
-describe Dero::Processor::Cookies do
+describe Netvice::Dero::Processor::Cookies do
   subject { described_class }
-  let(:mask) { Dero::Processor::STRING_MASK }
+  let(:mask) { Netvice::Dero::Processor::STRING_MASK }
 
   let(:cookies) {{
     'request' => {
@@ -33,4 +33,4 @@ describe Dero::Processor::Cookies do
       expect(result[:request][:headers][:'OtherHeader']).to eq 'still_here'
     end
   end
-end # Dero::Processor::Cookies
+end # Netvice::Dero::Processor::Cookies

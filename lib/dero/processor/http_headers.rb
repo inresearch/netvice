@@ -1,6 +1,6 @@
 # Remove all HTTP headers which match a regex. By default, this will only
 # remove the "Auth" header, but can be configured to remove others.
-module Dero::Processor::HttpHeaders
+module Netvice::Dero::Processor::HttpHeaders
   extend self
 
   def process!(data)
@@ -12,7 +12,7 @@ module Dero::Processor::HttpHeaders
   def fields_re
     return @fields_re if @fields_re
     fields_list_str = fields.map do |f|
-      Dero::Processor.use_boundary?(fields, f) ? "\\b#{f}\\b" : f
+      Netvice::Dero::Processor.use_boundary?(fields, f) ? "\\b#{f}\\b" : f
     end.join("|")
     @fields_re = /#{fields_list_str}/i
   end
@@ -27,7 +27,7 @@ module Dero::Processor::HttpHeaders
     return unless data[:request][:headers]
 
     data[:request][:headers].keys.select { |k| fields_re.match(k.to_s) }.each do |k|
-      data[:request][:headers][k] = Dero::Processor::STRING_MASK
+      data[:request][:headers][k] = Netvice::Dero::Processor::STRING_MASK
     end
   end
 
@@ -35,7 +35,7 @@ module Dero::Processor::HttpHeaders
     return unless data['request']['headers']
 
     data['request']['headers'].keys.select { |k| fields_re.match(k) }.each do |k|
-      data['request']['headers'][k] = Dero::Processor::STRING_MASK
+      data['request']['headers'][k] = Netvice::Dero::Processor::STRING_MASK
     end
   end
 end

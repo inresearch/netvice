@@ -1,4 +1,4 @@
-module Dero
+module Netvice::Dero
   module StaticMethods
     def capture_exception
     end
@@ -6,4 +6,4 @@ module Dero
     def extra_context(contexts={})
     end
   end # StaticMethods
-end # Dero
+end # Netvice::Dero

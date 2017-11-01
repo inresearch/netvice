@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Dero::Processor::Utf8 do
+describe Netvice::Dero::Processor::Utf8 do
   subject { described_class }
   let(:text) { "invalid utf8 string goes here\255".force_encoding('UTF-8') }
   let(:clean_text) { 'invalid utf8 string goes here' }

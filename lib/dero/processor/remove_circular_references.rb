@@ -1,7 +1,7 @@
 # Many Ruby JSON implementations simply throw an exception if circular
 # reference is detected. This processor removes circular references from
 # hashes and arrays
-module Dero::Processor::RemoveCircularReferences
+module Netvice::Dero::Processor::RemoveCircularReferences
   extend self
 
   def process!(value, visited = [])
@@ -22,4 +22,4 @@ module Dero::Processor::RemoveCircularReferences
       value
     end
   end
-end # Dero::Processor::RemoveCircularReferences
+end # Netvice::Dero::Processor::RemoveCircularReferences

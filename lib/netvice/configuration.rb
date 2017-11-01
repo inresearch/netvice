@@ -17,7 +17,7 @@ module Netvice
           USED_CONFIGURERS << configurer unless USED_CONFIGURERS.include?(configurer)
           invar = :"@#{configurer}"
           return instance_variable_get(invar) if instance_variable_get(invar) 
-          config_class = Object.const_get("#{subgem.capitalize}::Configuration")
+          config_class = Object.const_get("Netvice::#{subgem.capitalize}::Configuration")
           instance_variable_set(:"@#{configurer}", config_class.new)
           instance_variable_get(invar)
         end

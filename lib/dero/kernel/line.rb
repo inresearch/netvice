@@ -1,6 +1,6 @@
 # Handles backtrace parsing line by line. Inspired by Rails, Airbrake, and
 # Raven's implementation
-class Dero::Kernel::Line
+class Netvice::Dero::Kernel::Line
   RB_EXTENSION = ".rb".freeze
 
   RUBY_INPUT_FORMAT = /

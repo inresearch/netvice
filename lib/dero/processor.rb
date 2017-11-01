@@ -1,4 +1,4 @@
-module Dero::Processor
+module Netvice::Dero::Processor
   extend self
 
   STRING_MASK = "*********".freeze

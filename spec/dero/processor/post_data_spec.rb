@@ -1,8 +1,8 @@
 require "spec_helper"
 
-describe Dero::Processor::PostData do
+describe Netvice::Dero::Processor::PostData do
   subject { described_class }
-  let(:mask) { Dero::Processor::STRING_MASK }
+  let(:mask) { Netvice::Dero::Processor::STRING_MASK }
 
   let(:request) {{
     'request' => {

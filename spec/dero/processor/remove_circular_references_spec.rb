@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Dero::Processor::RemoveCircularReferences do
+describe Netvice::Dero::Processor::RemoveCircularReferences do
   subject { described_class }
   let(:mask) { '(...)' }
 

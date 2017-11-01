@@ -1,5 +1,5 @@
 # Remove any HTTP Post request bodies
-module Dero::Processor::PostData
+module Netvice::Dero::Processor::PostData
   extend self
 
   def process!(data)
@@ -12,11 +12,11 @@ module Dero::Processor::PostData
 
   def process_symbol(data)
     return unless data[:request][:method] == 'POST'
-    data[:request][:data] = Dero::Processor::STRING_MASK
+    data[:request][:data] = Netvice::Dero::Processor::STRING_MASK
   end
 
   def process_string(data)
     return unless data['request']['method'] == 'POST'
-    data['request']['data'] = Dero::Processor::STRING_MASK
+    data['request']['data'] = Netvice::Dero::Processor::STRING_MASK
   end
 end

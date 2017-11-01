@@ -1,7 +1,7 @@
 # Many Ruby JSON implementations will throw exceptions if data is
 # not in a consistent UTF-8 format. THis processor looks for invalid
 # encodings and fixes them
-module Dero::Processor::Utf8
+module Netvice::Dero::Processor::Utf8
   extend self
 
   # slightly misnamed -- actually its purpose is to remove any bytes with

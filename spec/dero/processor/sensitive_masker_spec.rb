@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Dero::Processor::SensitiveMasker do
+describe Netvice::Dero::Processor::SensitiveMasker do
   subject { described_class }
   after { Netvice.reset_configuration! }
   let(:data) {{

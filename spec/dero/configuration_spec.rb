@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Dero::Configuration do
+describe Netvice::Dero::Configuration do
   let(:conf) { Netvice.conf }
   after { Netvice.reset_configuration! }
 
@@ -33,27 +33,27 @@ describe Dero::Configuration do
       old_pattern = %Q{(?-mix:^(somedir\\/)?(?-mix:(bin|exe|app|config|lib|test)))}
       new_pattern = %Q{(?-mix:^(newdir\\/)?(?-mix:(bin|exe|app|config|lib|test)))}
       Netvice.reset_configuration!
-      expect(Dero::Kernel::Line.in_app_pattern.to_s).to eq old_pattern
+      expect(Netvice::Dero::Kernel::Line.in_app_pattern.to_s).to eq old_pattern
       conf.dero.workdir "newdir"
-      expect(Dero::Kernel::Line.in_app_pattern.to_s).to eq new_pattern
+      expect(Netvice::Dero::Kernel::Line.in_app_pattern.to_s).to eq new_pattern
     end
 
     it 'resets the http headers regex if masked_http_headers is changed' do
-      expect(Dero::Processor::HttpHeaders.fields_re.to_s).to eq %Q{(?i-mx:Authorization)}
+      expect(Netvice::Dero::Processor::HttpHeaders.fields_re.to_s).to eq %Q{(?i-mx:Authorization)}
       conf.dero.masked_http_headers ['A', 'B']
-      expect(Dero::Processor::HttpHeaders.fields_re.to_s).to eq %Q{(?i-mx:A|B)}
+      expect(Netvice::Dero::Processor::HttpHeaders.fields_re.to_s).to eq %Q{(?i-mx:A|B)}
     end
 
     it 'resets the fields regex if masked_fields is changed, and append the masked fields instead of replace' do
-      expect(Dero::Processor::SensitiveMasker.fields_re.to_s).to eq %Q{(?i-mx:authorization|password|passwd|pass|secret|ssn|social(.*)?sec)}
+      expect(Netvice::Dero::Processor::SensitiveMasker.fields_re.to_s).to eq %Q{(?i-mx:authorization|password|passwd|pass|secret|ssn|social(.*)?sec)}
       conf.dero.masked_fields ['when_will_you_marry']
-      expect(Dero::Processor::SensitiveMasker.fields_re.to_s).to eq %Q{(?i-mx:authorization|password|passwd|pass|secret|ssn|social(.*)?sec|\\bwhen_will_you_marry\\b)}
+      expect(Netvice::Dero::Processor::SensitiveMasker.fields_re.to_s).to eq %Q{(?i-mx:authorization|password|passwd|pass|secret|ssn|social(.*)?sec|\\bwhen_will_you_marry\\b)}
     end
 
     it 'excludes from masked fields if it is in unmasked_fields' do
-      expect(Dero::Processor::SensitiveMasker.fields_re.to_s).to eq %Q{(?i-mx:authorization|password|passwd|pass|secret|ssn|social(.*)?sec)}
+      expect(Netvice::Dero::Processor::SensitiveMasker.fields_re.to_s).to eq %Q{(?i-mx:authorization|password|passwd|pass|secret|ssn|social(.*)?sec)}
       conf.dero.unmasked_fields ['password']
-      expect(Dero::Processor::SensitiveMasker.fields_re.to_s).to eq %Q{(?i-mx:authorization|passwd|pass|secret|ssn|social(.*)?sec)}
+      expect(Netvice::Dero::Processor::SensitiveMasker.fields_re.to_s).to eq %Q{(?i-mx:authorization|passwd|pass|secret|ssn|social(.*)?sec)}
     end
   end
 end

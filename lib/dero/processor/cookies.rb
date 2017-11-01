@@ -1,5 +1,5 @@
 # Remove any HTTP cookies from the event data
-module Dero::Processor::Cookies
+module Netvice::Dero::Processor::Cookies
   extend self
 
   def process!(data)
@@ -11,21 +11,21 @@ module Dero::Processor::Cookies
   private
 
   def process_symbol!(data)
-    data[:request][:cookies] = Dero::Processor::STRING_MASK
+    data[:request][:cookies] = Netvice::Dero::Processor::STRING_MASK
     
     if data[:request][:headers]['Cookie']
-      data[:request][:headers]['Cookie'] = Dero::Processor::STRING_MASK
+      data[:request][:headers]['Cookie'] = Netvice::Dero::Processor::STRING_MASK
     end
 
     if data[:request][:headers][:Cookie]
-      data[:request][:headers][:Cookie] = Dero::Processor::STRING_MASK
+      data[:request][:headers][:Cookie] = Netvice::Dero::Processor::STRING_MASK
     end
   end
 
   def process_string!(data)
-    data['request']['cookies'] = Dero::Processor::STRING_MASK if data['request']['cookies']
+    data['request']['cookies'] = Netvice::Dero::Processor::STRING_MASK if data['request']['cookies']
 
     return unless data['request']['headers'] && data['request']['headers']['Cookie']
-    data['request']['headers']['Cookie'] = Dero::Processor::STRING_MASK
+    data['request']['headers']['Cookie'] = Netvice::Dero::Processor::STRING_MASK
   end
 end
