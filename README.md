@@ -3,6 +3,12 @@
 Manages microservices. On library and data structure changes, please help
 ensure updating the compatibility, and change it if necessary.
 
+## User
+
+Compatible with: alpha1.
+
+Configuration file (`config/yuza.rb`):
+
 ```ruby
 Netvice.configure do
   app  "pageok"
@@ -15,9 +21,7 @@ Netvice.configure do
 end
 ```
 
-## User
-
-Compatible with: alpha1.
+Usage example:
 
 ```ruby
 user = Netvice::Yuza::User.where_id("5")
@@ -31,6 +35,23 @@ user.attempt_login("Password01")
 
 Compatible with: alpha1.
 
-```ruby
+Configuration file (`config/dero.rb`):
 
+```ruby
+Netvice.configure do
+  dero do
+    integrate_with: :rails
+    integrate_with: :sidekiq
+    
+    project :my_awesome_app
+  end
+end
+```
+
+Usage example:
+
+```ruby
+Netvice::Dero.capture_exception(exc)
+Netvice::Dero.user_context email: 'foo@example.com' # bind the logged in user
+Netvice::Dero.extra_context account_type: 'premium' # filterable context
 ```
