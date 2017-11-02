@@ -1,24 +1,26 @@
 require "spec_helper"
 
 describe Netvice::Configurable do
-  class DatabaseConfig
-    include Netvice::Configurable
+  let(:database_config_class) {
+    Class.new do
+      include Netvice::Configurable
 
-    config_field :cache_endpoint, "http://localhost:5000"
-    config_field :timeout
-    config_field(:env, 'DEVELOPMENT') do |env|
-      env.upcase
+      config_field :cache_endpoint, "http://localhost:5000"
+      config_field :timeout
+      config_field(:env, 'DEVELOPMENT') do |env|
+        env.upcase
+      end
+      config_field :in_rails, -> { defined?(Rails) ? true : false }
+
+      attr_reader :called
+
+      def setup
+        @called = true
+      end
     end
-    config_field :in_rails, -> { defined?(Rails) ? true : false }
+  }
 
-    attr_reader :called
-
-    def setup
-      @called = true
-    end
-  end
-
-  subject { DatabaseConfig.new }
+  subject { database_config_class.new }
 
   describe '#initialize' do
     it 'set the default attribute automatically' do
@@ -52,13 +54,13 @@ describe Netvice::Configurable do
   end
 
   it 'can evaluate value defined in a proc and execute the block to obtain actual value' do
-    conf1 = DatabaseConfig.new
+    conf1 = database_config_class.new
     expect(conf1.in_rails).to be false
     module Rails; end
-    conf2 = DatabaseConfig.new
+    conf2 = database_config_class.new
     expect(conf2.in_rails).to be true
     Object.send(:remove_const, :Rails)
-    conf3 = DatabaseConfig.new
+    conf3 = database_config_class.new
     expect(conf3.in_rails).to be false
   end
 end # Netvice::Configurable

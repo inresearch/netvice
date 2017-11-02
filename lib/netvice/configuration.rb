@@ -2,21 +2,22 @@ module Netvice
   class Configuration
     include Netvice::Configurable
 
-    config_field :app, nil
-    config_field :logger, Logger.new(STDOUT)
+    attr_reader :configurers
 
-    # listing all configurations that's actually used/called somewhere
-    USED_CONFIGURERS = []
+    config_field :app, nil
+    config_field :logger, -> {defined?(Rails.logger) ? Rails.logger : Logger.new(STDOUT)}
 
     def self.configurable(subgem)
       self.class_eval do
         configurer = "#{subgem}_configuration"
         define_method(configurer) do # eg: yuza_configuration
-          USED_CONFIGURERS << configurer unless USED_CONFIGURERS.include?(configurer)
           invar = :"@#{configurer}"
           return instance_variable_get(invar) if instance_variable_get(invar) 
-          config_class = Object.const_get("Netvice::#{subgem.capitalize}::Configuration")
-          instance_variable_set(:"@#{configurer}", config_class.new)
+          config_class = "Netvice::#{subgem.capitalize}::Configuration"
+          config_class = Object.const_get(config_class)
+          config_instance = config_class.new
+          @configurers[config_class] = config_instance
+          instance_variable_set(:"@#{configurer}", config_instance)
           instance_variable_get(invar)
         end
 
@@ -29,11 +30,20 @@ module Netvice
     configurable :yuza
     configurable :dero
 
+    def initialize
+      @configurers = {}
+      @configurers[self.class] = self
+      reset!
+    end
+
     def reset!
-      USED_CONFIGURERS.each do |used_config|
-        config = send(used_config)
-        Netvice::Configurable::ATTRIBUTES[config.class].each do |field_name, _|
-          config.send("reinit_#{field_name}!")
+      Netvice::Configurable::ATTRIBUTES.each do |config_class, config_definition|
+        configuration = configurers[config_class]
+        if configuration
+          config_definition.keys.each do |config_field|
+            reset_method = "reset_#{config_field}!"
+            configuration.send(reset_method)
+          end
         end
       end
       true

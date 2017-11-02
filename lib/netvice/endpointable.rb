@@ -2,7 +2,11 @@ module Netvice
   module Endpointable
     def self.included(base)
       base.class_eval do
-        config_field :host, 'http://localhost'
+        include Netvice::Configurable
+
+        config_field(:host, 'http://localhost') do |val|
+          val.end_with?('/') ? val[0..-2] : val
+        end
         config_field :port, 2000
         config_field :timeout, 10
       end
@@ -15,7 +19,7 @@ module Netvice
     end
 
     def user_agent
-      "Netinmax" + (config.app ? ":#{config.app}" : "")
+      "netvice #{Netvice::VERSION}" + (config.app ? "/#{config.app}" : "")
     end    
   end
 end

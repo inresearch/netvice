@@ -1,6 +1,7 @@
 module Netvice
   # Make it easy to define configurable fields (used for configuration dsl)
   module Configurable
+    # listing all configurations that's actually used/called somewhere
     ATTRIBUTES = {}
 
     def self.included(base)
@@ -32,7 +33,7 @@ module Netvice
           end # configuration field definition
 
           # init field name to its default value
-          define_method("reinit_#{field_name}!") do
+          define_method("reset_#{field_name}!") do
             if ATTRIBUTES[self.class]
               field_config = ATTRIBUTES[self.class][field_name]
               default = field_config[:default]
@@ -41,7 +42,7 @@ module Netvice
               return true
             end
             false
-          end # reinit
+          end # reset
         end # class_eval
       end # config_field
     end # StaticMethods
@@ -49,7 +50,7 @@ module Netvice
     def initialize
       return unless ATTRIBUTES[self.class]
       ATTRIBUTES[self.class].each do |field_name, _|
-        send("reinit_#{field_name}!")
+        send("reset_#{field_name}!")
       end
       setup()
     end # initialize
