@@ -49,4 +49,23 @@ describe Netvice::Connection do
       end
     end # general
   end # on error
+
+  context 'pipeline' do
+    let(:body) { {} }
+    let(:path) { '/do' }
+
+    it 'can manipulate the body' do
+      subject.add_pipeline(:add_body, body_proc: -> (body) {body['added']=true; body})
+      subject.post(path, body)
+      expect(a_request(:post, "example.com/do").with(body: {added: true}.to_json))
+        .to have_been_made.once
+    end
+
+    it 'can manipulate the path' do
+      stub_json("http://example.com/do?secret=true", "dummy/response", method: :post)
+      subject.add_pipeline(:add_secret, path_proc: -> (path) {"#{path}?secret=true"})
+      subject.post(path, body)
+      expect(a_request(:post, "http://example.com/do?secret=true")).to have_been_made.once
+    end
+  end
 end # Netvice::Connection

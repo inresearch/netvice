@@ -16,6 +16,7 @@ module Netvice
   autoload :Reloadable, "netvice/reloadable"
   autoload :Configuration, "netvice/configuration"
   autoload :Connection, "netvice/connection"
+  autoload :ConnectionPipeline, "netvice/connection_pipeline"
   autoload :Model, "netvice/model"
   autoload :Sanitizer, "netvice/sanitizer"
   autoload :FakeLogger, "netvice/fake_logger"

@@ -2,7 +2,7 @@ module Netvice
   module Sanitizer
     extend self
 
-    SENSITIVE_FIELDS = [:user_id, :id, :password, :code, :email]
+    SENSITIVE_FIELDS = [:user_id, :id, :password, :code, :email, :secret]
 
     def obfuscate_sensitive_data(hash)
       return hash unless hash.is_a?(Hash)

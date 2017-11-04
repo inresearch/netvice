@@ -10,12 +10,22 @@ module Netvice
     attr_reader :base_url
     attr_reader :header
     attr_reader :timeout
+    attr_reader :pipelines
 
     def initialize(base_url, options={})
       @base_url = base_url
       @header = options[:header] || options[:headers] || {}
       @header = DEFAULT_HEADERS.merge(@header)
       @timeout = options.fetch(:timeout)
+      @pipelines = []
+    end
+
+    # creating new pipeline, the opts basically the states that will
+    # instantiate new connection pipeline object
+    def add_pipeline(name, opts={})
+      pl = Netvice::ConnectionPipeline.new(opts.merge(name: name))
+      @pipelines << pl
+      pl
     end
 
     def session
@@ -45,6 +55,7 @@ module Netvice
     end
     
     def send_request(method, path, body:nil, json:true)
+      path, body = perform_pipeline_manipulation(method, path, body)
       ob_body = Netvice::Sanitizer.obfuscate_sensitive_data(body)
       Netvice.logger.info(Rainbow("Sending ##{method.to_s.upcase}: #{path} <#{ob_body}>").cyan)
 
@@ -70,7 +81,7 @@ module Netvice
     end
 
     def inspect
-      inspector([:base_url, :timeout])
+      inspector([:base_url, :timeout, :pipelines])
     end
 
     private
@@ -83,6 +94,17 @@ module Netvice
         end
       end
       body
+    end
+
+    def perform_pipeline_manipulation(method, path, body)
+      path = path.dup if path
+      body = body.dup if body
+      pipelines.each do |pipeline|
+        next unless pipeline.for_method?(method)
+        Netvice.logger.info(Rainbow("Execute pipeline: #{pipeline.name}").yellow)
+        path, body = pipeline.call(path, body)
+      end
+      [path, body]
     end
   end # Connection
 end # Netvice
