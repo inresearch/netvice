@@ -36,6 +36,9 @@ module Netvice
     autoload :String, "netvice/dimensions/string"
   end
 
+  autoload :Yuza, "yuza/all"
+  autoload :Dero, "dero/all"
+
   RuntimeError = Class.new(StandardError)
   NetworkError = Class.new(RuntimeError)
   TimeoutError = Class.new(NetworkError)
@@ -68,6 +71,3 @@ module Netvice
     Netvice.configuration.logger || @@fake_logger
   end
 end # Netvice
-
-require "yuza/all"
-require "dero/all"

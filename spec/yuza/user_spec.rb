@@ -17,7 +17,7 @@ describe Netvice::Yuza::User do
 
   describe '#where_id' do
     it 'returns user when found' do
-      stub_json("http://localhost:2000/users/5", "user/where_id_success")
+      stub_json(%r{localhost:2000/users/5}, "user/where_id_success")
 
       user = subject.where_id("5")
       expect(user.id).to eq "5"
@@ -28,7 +28,7 @@ describe Netvice::Yuza::User do
     end
 
     it 'returns nil when not found' do
-      stub_json("http://localhost:2000/users/5", "user/where_id_missing")
+      stub_json(%r{localhost:2000/users/5}, "user/where_id_missing")
       user = subject.where_id("5")
       expect(user).to be_nil
     end
@@ -36,8 +36,8 @@ describe Netvice::Yuza::User do
 
   describe '#save!' do
     before do
-      stub_json("http://localhost:2000/users/5", "user/where_id_success")
-      stub_request(:patch, "http://localhost:2000/users/5").
+      stub_json(%r{localhost:2000/users/5}, "user/where_id_success")
+      stub_request(:patch, %r{localhost:2000/users/5}).
         to_return(status: 200, body: {success: true}.to_json)
     end
 
@@ -45,8 +45,8 @@ describe Netvice::Yuza::User do
       user = subject.where_id("5")
       user.name = "Aloha"
       user.save!
-      expect(a_request(:patch, "http://localhost:2000/users/5")).to have_been_made.once
-      expect(a_request(:get, "http://localhost:2000/users/5")).to have_been_made.times(2)
+      expect(a_request(:patch, %r{localhost:2000/users/5})).to have_been_made.once
+      expect(a_request(:get, %r{localhost:2000/users/5})).to have_been_made.times(2)
     end
   end # save
 
@@ -54,7 +54,7 @@ describe Netvice::Yuza::User do
     let(:user) { subject.where_id("5") }
     let(:sess) { user.attempt_login("Password01") }
     before do
-      stub_json("http://localhost:2000/users/5", "user/where_id_success")
+      stub_json(%r{localhost:2000/users/5}, "user/where_id_success")
     end
 
     it 'returns false when credentials invalid' do

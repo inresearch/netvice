@@ -4,7 +4,12 @@ module Netvice
 
     attr_reader :configurers
 
-    config_field :app, nil
+    config_field(:app, nil) do |val|
+      Netvice::Yuza::Connection.class_variable_set(:@@http_conn, nil)
+      Netvice::Dero::Connection.class_variable_set(:@@http_conn, nil)
+      val
+    end
+
     config_field :logger, -> {defined?(Rails.logger) ? Rails.logger : Logger.new(STDOUT)}
 
     def self.configurable(subgem)

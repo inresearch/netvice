@@ -24,6 +24,9 @@ def json_fixture(file)
 end
 
 def stub_json(path, fixture_path, method: :get)
-  stub_request(method, path)
-    .to_return(status: 200, body: json_fixture(fixture_path).to_json)
+  method = [method] unless method.is_a?(Array)
+  method.each do |m|
+    stub_request(m, path)
+      .to_return(status: 200, body: json_fixture(fixture_path).to_json)
+  end
 end

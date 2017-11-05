@@ -2,6 +2,7 @@ module Netvice::Dero
   autoload :Configuration, "dero/configuration"
   autoload :StaticMethods, "dero/static_methods"
   autoload :Processor, "dero/processor"
+  autoload :Connection, "dero/connection"
 
   module Kernel
     autoload :Line, "dero/kernel/line"
@@ -18,14 +19,6 @@ module Netvice::Dero
   end
 
   RuntimeError = Class.new(Netvice::RuntimeError)
-  @@http_conn = nil
-
-  def http
-    return @@http_conn if @@http_conn
-    conf = Netvice.configuration.dero
-    @http_conn = Netvice::Connection.new(
-      conf.base_url, timeout: conf.timeout)
-  end
-
+  extend Netvice::Dero::Connection
   extend Netvice::Dero::StaticMethods
 end
