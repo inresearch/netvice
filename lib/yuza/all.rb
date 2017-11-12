@@ -10,5 +10,6 @@ module Netvice
     RuntimeError = Class.new(Netvice::RuntimeError)
 
     extend Netvice::Yuza::Connection
+    extend Netvice::Yuza::Paths
   end
 end
